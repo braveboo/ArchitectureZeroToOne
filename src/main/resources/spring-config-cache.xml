@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 缓存管理器 -->
+    <bean id="cacheManager" class="cn.mmb.b2b.user.SpringCacheManagerWrapper">
+        <property name="cacheManagers">
+            <set>
+                <ref bean="springEhCacheManager"/>
+                <ref bean="redisCacheManager"/>
+            </set>
+        </property>
+    </bean>
+
+    <!--ehcache缓存-->
+    <bean id="springEhCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="ehcacheManager"/>
+    </bean>
+
+    <!--ehcache-->
+    <bean id="ehcacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:ehcache/ehcache.xml"/>
+    </bean>
+
+    <!--redisCache缓存-->
+    <bean id='redisCacheManager'
+          class='org.springframework.data.redis.cache.RedisCacheManager'
+          c:redisOperations-ref="redisTemplate"/>
+</beans>

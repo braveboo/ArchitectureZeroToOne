@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.mmb.b2b.user.infrastructure.persistence.mappers.RoleMapper">
+
+    <resultMap id="roleInfo" type="cn.mmb.b2b.user.domain.entity.Role">
+        <id column="id" property="id"></id>
+        <result column="roleName" property="name"/>
+        <result column="roleCode" property="code"/>
+        <result column="operator" property="operator"/>
+        <result column="operateTime" property="operateTime"/>
+        <result column="isCancel" property="isCancel"/>
+        <collection property="permissions" resultMap="permissionResult">
+        </collection>
+    </resultMap>
+
+    <resultMap id="permissionResult" type="cn.mmb.b2b.user.domain.entity.Permission">
+        <result column="permissionId" property="id"></result>
+        <result column="permissionName" property="name"></result>
+        <result column="permissionCode" property="code"></result>
+        <result column="url" property="url"></result>
+        <result column="permission_expression" property="expression"></result>
+    </resultMap>
+
+    <select id="getRoleListByUserName" parameterType="String" resultMap="roleInfo">
+        select br.id,br.isCancel,br.alias,br.`code`,br.company_id,br.`name`,bup.`code` as permissionCode,
+        bup.permission_expression,bup.url,bup.`name` as permissionName,bup.id as permissionId
+        from b2b_role br join b2b_user_role bsr on bsr.role_id=br.id
+        join b2b_user bu on bu.id=bsr.user_id
+        join b2b_user_role_permission urp on urp.role_id=br.id
+        join b2b_user_permission bup on bup.id=urp.permission_id
+        where bu.user_name=#{userName}
+    </select>
+
+    <select id="getRolesByCompanyId" parameterType="String" resultMap="roleInfo">
+        select r.id,r.name roleName,r.code roleCode,r.operator,r.operate_time operateTime
+        from b2b_role r WHERE r.company_id = #{companyId}
+    </select>
+    <select id="getUserAllRoles" parameterType="user" resultMap="roleInfo">
+        select r.id,r.name roleName,r.code roleCode,r.operator,r.operate_time operateTime
+        from b2b_user u JOIN b2b_user_role ur on u.id = ur.user_id
+        JOIN b2b_role r on ur.role_id = r.id
+        where 1=1
+        <if test="id != null">
+            AND u.id = #{id}
+        </if>
+        <if test="name != null">
+            AND u.name =#{name}
+        </if>
+    </select>
+
+</mapper>

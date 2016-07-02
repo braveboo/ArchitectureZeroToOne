@@ -1,0 +1,23 @@
+<Context path="/b2bweb" reloadable="true">
+    <Resource name="jdbc/adult" type="javax.sql.DataSource"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://127.0.0.1:3306/shiro"
+              maxWait="10000" maxActive="5" maxIdle="2"
+              username="root" password="root"
+              removeAbandoned="true" removeAbandonedTimeout="10" logAbandoned="true"
+    />
+    <Resource name="jdbc/adult_slave" type="javax.sql.DataSource"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://127.0.0.1:3306/shiro"
+              maxWait="10000" maxActive="5" maxIdle="2"
+              username="root" password="root"
+              removeAbandoned="true" removeAbandonedTimeout="10" logAbandoned="true"
+    />
+    <Resource name="jdbc/adult_slave2" type="javax.sql.DataSource"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://127.0.0.1:3306/shiro"
+              maxWait="10000" maxActive="5" maxIdle="2"
+              username="root" password="root"
+              removeAbandoned="true" removeAbandonedTimeout="10" logAbandoned="true"
+    />
+</Context>

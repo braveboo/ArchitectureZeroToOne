@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.mmb.b2b.user.infrastructure.persistence.mappers.UserMapper">
+
+    <resultMap id="userInfo" type="user">
+        <id column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="status" property="status"/>
+        <result column="salt" property="salt"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="address" property="address"/>
+        <result column="reister_time" property="registerTime"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="operator" property="createUser"/>
+        <result column="isCancel" property="isCancel" javaType="Boolean" jdbcType="CHAR"/>
+    </resultMap>
+
+    <select id="getUserByUserName" parameterType="String" resultMap="userInfo">
+        select u.*,bs.phone,bs.password,bs.address,bs.salt from b2b_user u join b2b_user_sensitive bs on bs.id=u.id
+        where u.user_name = #{userName}
+    </select>
+
+    <select id="getUserInfoById" parameterType="String" resultMap="userInfo">
+        select u.*,bs.phone,bs.password,bs.address,bs.salt from b2b_user u join b2b_user_sensitive bs on bs.id=u.id
+        where u.id = #{id}
+    </select>
+</mapper>
+
