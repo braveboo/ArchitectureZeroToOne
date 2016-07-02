@@ -51,6 +51,6 @@ public class CyclicDependencies {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println("qqqq");
+//        System.out.println("qqqq");
     }
 }
